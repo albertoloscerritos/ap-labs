@@ -1,4 +1,4 @@
-// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+/// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 // See page 227.
@@ -7,6 +7,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"log"
 	"net"
@@ -15,7 +16,14 @@ import (
 
 //!+
 func main() {
-	conn, err := net.Dial("tcp", "localhost:8000")
+
+	host := flag.String("server", "localhost:9000", "<host>:<port>")
+	user := flag.String("user", "user1", "Your username")
+	flag.Parse()
+
+	conn, err := net.Dial("tcp", *host)
+	conn.Write([]byte(*user))
+
 	if err != nil {
 		log.Fatal(err)
 	}
